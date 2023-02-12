@@ -39,11 +39,11 @@ func deal(d deck, handSize int) (deck, deck) {
 }
 
 func (d deck) toString() string {
-	return strings.Join([]string(d), ",")
+	return strings.Join([]string(d), ",") // since deck type is from []string, so we can simply convert it back to []string
 }
 
 func (d deck) saveToFile(filename string) error {
-	return ioutil.WriteFile(filename, []byte(d.toString()), 0666)
+	return ioutil.WriteFile(filename, []byte(d.toString()), 0666) //0666 is default permision, everyone can read and write the file
 }
 
 func newDeckFromFile(filename string) deck {
