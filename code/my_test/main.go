@@ -6,6 +6,6 @@ import (
 
 func main() {
 	my_string := "Hi there"
-	fmt.Println([]byte(my_string))
+	fmt.Println(my_string, len(my_string))
 
 }

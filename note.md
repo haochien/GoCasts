@@ -181,7 +181,36 @@ foo = 52
 
     ```
 
+4. random:
+    ```go
+    import (
+	"math/rand"
+	"time"
+    )
+    source := rand.NewSource(time.Now().UnixNano())
+	r := rand.New(source)
+    newNumber := r.Intn(len(foo) - 1)  //number between 0 - len(foo)-1
+
+    ```
         
+
+## E. Testing:
+1. create file ending in _test.go
+2. to run all tests in a package, run: go test
+3. function name should start with Test and pass variable 't *testing.T'
+   ```go
+    import "testing"
+
+    func TestNewDeck(t *testing.T) {
+        d := newDeck()
+        if len(d) != 16 {
+            t.Errorf("Expected deck length of 16, but got %v", len(d))
+        }
+    }
+    ```
+
+
+
 
 
 
