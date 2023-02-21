@@ -21,7 +21,7 @@ func printGreeting(b bot) {
 	fmt.Println(b.getGreeting())
 }
 
-func (englishBot) getGreeting() string {
+func (englishBot) getGreeting() string { //func (b englishBot): since variable b is not used in this funtion, can only write type
 	// VERY custom logic for generating an english greeting
 	return "Hi there!"
 }

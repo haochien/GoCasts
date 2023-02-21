@@ -1,11 +1,16 @@
 package main
 
-import (
-	"fmt"
-)
+import "fmt"
 
 func main() {
-	my_string := "Hi there"
-	fmt.Println(my_string, len(my_string))
+	name := "bill"
 
+	namePointer := &name
+
+	fmt.Println(&namePointer)
+	printPointer(namePointer)
+}
+
+func printPointer(namePointer *string) {
+	fmt.Println(&namePointer)
 }
