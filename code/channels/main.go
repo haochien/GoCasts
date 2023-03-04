@@ -21,11 +21,14 @@ func main() {
 		go checkLink(link, c)
 	}
 
+	//fmt.Println(<- c)
+
+	// scenario 2: continual loop whenever c send back something:
 	for l := range c {
 		go func(link string) {
 			time.Sleep(5 * time.Second)
 			checkLink(link, c)
-		}(l)
+		}(l) // (l) is to call the function we just created immediately
 	}
 }
 

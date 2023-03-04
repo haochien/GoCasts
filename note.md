@@ -321,6 +321,12 @@ foo = 52
     }
     ```
 
+    ```go
+    for i := 0; i < (links); i++{
+        fmt.Println("Hi")
+    }
+    ```
+
 2. if statement:
     ```go
     import os
@@ -367,7 +373,82 @@ foo = 52
     newNumber := r.Intn(len(foo) - 1)  //number between 0 - len(foo)-1
 
     ```
-        
+
+5. Concurrency:
+
+    Concurrency: the program can execute (schedule) multiple threads. If one thread blocks, another one is picked up and worked on. (it does not matter whether you can 1 cpu core or multiple)
+
+    ** Parallelism: Multiple threads executed at the exactly same time (Require multiple CPU)
+
+    Channel: it used to communicate between Main Go rutine and its child rutines
+    ```go
+    c := make(chan string)
+    ```
+
+    ```go
+    for _, link := range links {
+		go checkLink(link, c) // 'go' will create and handel Go rutine
+	}
+    ```
+
+    ```go
+    // send data to channel
+    func checkLink(link string, c chan string) {  // c channelType CommunicateType
+        _, err := http.Get(link)
+        if err != nil {
+            fmt.Println(link, "might be down!")
+
+            // c <- link: send x (e.g. link here) to channel
+            c <- link  
+            return
+        }
+
+        fmt.Println(link, "is up!")
+        c <- link
+    }
+    ```
+
+    ```go
+    // receive data from channel
+
+    // variable <- c: wait value to be sent to channel, then assign it to a variable
+    // can also do fmt.Println(<- c)
+    fmt.Println(<- c)
+
+    /*
+    <- c: is also a blocker code, the main go routine will sleep when waits for data from channel.
+    it only wake up when the channel receive the data from first child routine.
+    Thus, if you have n child routine, you have to do fmt.Println(<- c) n times as well in order to receive all data from channel
+    */
+
+
+    // scenario 1: print all in links 
+    for i := 0; i < (links); i++{
+        fmt.Println(<- c)
+    }
+
+
+    // scenario 2: continual loop whenever c send back something:
+		for l := range c {
+			go checkLink(link, c)
+		}
+
+        //this loops equal to:
+        for {
+			go checkLink(<- c, c)
+		}
+
+    // scenario 3: temp pause function:
+    for l := range c {
+		go func(link string) {
+			time.Sleep(5 * time.Second)
+			checkLink(link, c)
+		}(l)
+	}    
+    ```
+    
+
+
 
 ## E. Testing:
 1. create file ending in _test.go
